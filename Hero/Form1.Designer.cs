@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.HeroList = new System.Windows.Forms.ListView();
             this.hero1 = new System.Windows.Forms.PictureBox();
             this.hero2 = new System.Windows.Forms.PictureBox();
             this.hero3 = new System.Windows.Forms.PictureBox();
@@ -39,6 +38,7 @@
             this.Roles2 = new System.Windows.Forms.CheckedListBox();
             this.ByWinrate = new System.Windows.Forms.RadioButton();
             this.ByDisadvantage = new System.Windows.Forms.RadioButton();
+            this.HeroList = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.hero1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero3)).BeginInit();
@@ -46,62 +46,57 @@
             ((System.ComponentModel.ISupportInitialize)(this.hero5)).BeginInit();
             this.SuspendLayout();
             // 
-            // HeroList
-            // 
-            this.HeroList.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.HeroList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.HeroList.Location = new System.Drawing.Point(12, 12);
-            this.HeroList.Name = "HeroList";
-            this.HeroList.RightToLeftLayout = true;
-            this.HeroList.Size = new System.Drawing.Size(384, 453);
-            this.HeroList.TabIndex = 0;
-            this.HeroList.UseCompatibleStateImageBehavior = false;
-            // 
             // hero1
             // 
-            this.hero1.Location = new System.Drawing.Point(414, 12);
+            this.hero1.Location = new System.Drawing.Point(483, 15);
+            this.hero1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.hero1.Name = "hero1";
-            this.hero1.Size = new System.Drawing.Size(72, 49);
+            this.hero1.Size = new System.Drawing.Size(84, 60);
             this.hero1.TabIndex = 1;
             this.hero1.TabStop = false;
             // 
             // hero2
             // 
-            this.hero2.Location = new System.Drawing.Point(504, 12);
+            this.hero2.Location = new System.Drawing.Point(588, 15);
+            this.hero2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.hero2.Name = "hero2";
-            this.hero2.Size = new System.Drawing.Size(72, 49);
+            this.hero2.Size = new System.Drawing.Size(84, 60);
             this.hero2.TabIndex = 2;
             this.hero2.TabStop = false;
             // 
             // hero3
             // 
-            this.hero3.Location = new System.Drawing.Point(594, 12);
+            this.hero3.Location = new System.Drawing.Point(693, 15);
+            this.hero3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.hero3.Name = "hero3";
-            this.hero3.Size = new System.Drawing.Size(72, 49);
+            this.hero3.Size = new System.Drawing.Size(84, 60);
             this.hero3.TabIndex = 3;
             this.hero3.TabStop = false;
             // 
             // hero4
             // 
-            this.hero4.Location = new System.Drawing.Point(684, 12);
+            this.hero4.Location = new System.Drawing.Point(798, 15);
+            this.hero4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.hero4.Name = "hero4";
-            this.hero4.Size = new System.Drawing.Size(72, 49);
+            this.hero4.Size = new System.Drawing.Size(84, 60);
             this.hero4.TabIndex = 4;
             this.hero4.TabStop = false;
             // 
             // hero5
             // 
-            this.hero5.Location = new System.Drawing.Point(774, 12);
+            this.hero5.Location = new System.Drawing.Point(903, 15);
+            this.hero5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.hero5.Name = "hero5";
-            this.hero5.Size = new System.Drawing.Size(72, 49);
+            this.hero5.Size = new System.Drawing.Size(84, 60);
             this.hero5.TabIndex = 5;
             this.hero5.TabStop = false;
             // 
             // bestHeroes
             // 
-            this.bestHeroes.Location = new System.Drawing.Point(414, 75);
+            this.bestHeroes.Location = new System.Drawing.Point(483, 92);
+            this.bestHeroes.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.bestHeroes.Name = "bestHeroes";
-            this.bestHeroes.Size = new System.Drawing.Size(432, 285);
+            this.bestHeroes.Size = new System.Drawing.Size(504, 351);
             this.bestHeroes.TabIndex = 6;
             // 
             // Roles
@@ -117,9 +112,10 @@
             "Durable",
             "Initiator",
             "Disabler"});
-            this.Roles.Location = new System.Drawing.Point(414, 375);
+            this.Roles.Location = new System.Drawing.Point(483, 462);
+            this.Roles.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Roles.Name = "Roles";
-            this.Roles.Size = new System.Drawing.Size(137, 85);
+            this.Roles.Size = new System.Drawing.Size(160, 102);
             this.Roles.TabIndex = 7;
             // 
             // Roles2
@@ -135,9 +131,10 @@
             "Escape",
             "Pusher",
             "Melee"});
-            this.Roles2.Location = new System.Drawing.Point(572, 375);
+            this.Roles2.Location = new System.Drawing.Point(667, 462);
+            this.Roles2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Roles2.Name = "Roles2";
-            this.Roles2.Size = new System.Drawing.Size(148, 85);
+            this.Roles2.Size = new System.Drawing.Size(173, 102);
             this.Roles2.TabIndex = 8;
             // 
             // ByWinrate
@@ -148,7 +145,8 @@
             this.ByWinrate.FlatAppearance.BorderSize = 5;
             this.ByWinrate.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ByWinrate.ForeColor = System.Drawing.Color.PeachPuff;
-            this.ByWinrate.Location = new System.Drawing.Point(726, 395);
+            this.ByWinrate.Location = new System.Drawing.Point(847, 486);
+            this.ByWinrate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ByWinrate.Name = "ByWinrate";
             this.ByWinrate.Size = new System.Drawing.Size(87, 20);
             this.ByWinrate.TabIndex = 9;
@@ -161,19 +159,44 @@
             this.ByDisadvantage.AutoSize = true;
             this.ByDisadvantage.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ByDisadvantage.ForeColor = System.Drawing.Color.PeachPuff;
-            this.ByDisadvantage.Location = new System.Drawing.Point(726, 421);
+            this.ByDisadvantage.Location = new System.Drawing.Point(847, 518);
+            this.ByDisadvantage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ByDisadvantage.Name = "ByDisadvantage";
             this.ByDisadvantage.Size = new System.Drawing.Size(109, 20);
             this.ByDisadvantage.TabIndex = 10;
             this.ByDisadvantage.Text = "By Advantage";
             this.ByDisadvantage.UseVisualStyleBackColor = true;
             // 
+            // HeroList
+            // 
+            this.HeroList.AutoScroll = true;
+            this.HeroList.AutoSize = true;
+            this.HeroList.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.HeroList.ColumnCount = 6;
+            this.HeroList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.HeroList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.HeroList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.HeroList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.HeroList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.HeroList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.HeroList.Cursor = System.Windows.Forms.Cursors.No;
+            this.HeroList.Dock = System.Windows.Forms.DockStyle.Left;
+            this.HeroList.Location = new System.Drawing.Point(0, 0);
+            this.HeroList.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.HeroList.Name = "HeroList";
+            this.HeroList.RowCount = 2;
+            this.HeroList.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.HeroList.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.HeroList.Size = new System.Drawing.Size(0, 587);
+            this.HeroList.TabIndex = 11;
+            // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(862, 477);
+            this.ClientSize = new System.Drawing.Size(1006, 587);
+            this.Controls.Add(this.HeroList);
             this.Controls.Add(this.ByDisadvantage);
             this.Controls.Add(this.ByWinrate);
             this.Controls.Add(this.Roles2);
@@ -184,11 +207,13 @@
             this.Controls.Add(this.hero3);
             this.Controls.Add(this.hero2);
             this.Controls.Add(this.hero1);
-            this.Controls.Add(this.HeroList);
+            this.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ForeColor = System.Drawing.Color.Coral;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainWindow";
             this.Text = "Dota Hero Picker";
+            this.Load += new System.EventHandler(this.MainWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.hero1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero3)).EndInit();
@@ -200,18 +225,17 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ListView HeroList;
-        private System.Windows.Forms.PictureBox hero1;
-        private System.Windows.Forms.PictureBox hero2;
-        private System.Windows.Forms.PictureBox hero3;
-        private System.Windows.Forms.PictureBox hero4;
-        private System.Windows.Forms.PictureBox hero5;
         private System.Windows.Forms.Panel bestHeroes;
         private System.Windows.Forms.CheckedListBox Roles;
         private System.Windows.Forms.CheckedListBox Roles2;
         private System.Windows.Forms.RadioButton ByWinrate;
         private System.Windows.Forms.RadioButton ByDisadvantage;
+        public System.Windows.Forms.PictureBox hero1;
+        public System.Windows.Forms.PictureBox hero2;
+        public System.Windows.Forms.PictureBox hero3;
+        public System.Windows.Forms.PictureBox hero4;
+        public System.Windows.Forms.PictureBox hero5;
+        private System.Windows.Forms.TableLayoutPanel HeroList;
     }
 }
 
