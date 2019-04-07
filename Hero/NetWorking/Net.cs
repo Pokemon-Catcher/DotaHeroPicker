@@ -29,23 +29,23 @@ namespace Hero.NetWorking
             request.Headers.Add("x-compress: null");
             request.Headers.Add("upgrade-insecure-requests: 1");
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-            Debug.WriteLine(request.Headers);
+            //Debug.WriteLine(request.Headers);
             return request;
         }
         public static string GetPage(HttpWebRequest request)
         {
             string result="Error";
             using(HttpWebResponse response = (HttpWebResponse) request.GetResponse()){
-                foreach (string i in response.Headers)
-                {
-                    Debug.WriteLine(i+":"+response.Headers[i]);
-                }
+                //foreach (string i in response.Headers)
+                //{
+                //    Debug.WriteLine(i+":"+response.Headers[i]);
+                //}
                 using(Stream dataStream = response.GetResponseStream())
                 {
                     Encoding encoding = Encoding.GetEncoding(response.CharacterSet);
                     using (StreamReader reader = new StreamReader(dataStream, encoding)){
                         result = reader.ReadToEnd();
-                        Debug.Write(result);
+                        //Debug.Write(result);
                     }
                 }   
             }
@@ -53,7 +53,7 @@ namespace Hero.NetWorking
         }
 
         public static Image GetImage(string url)
-        {
+        {            
             HttpWebRequest request = GetRequest(url);
             Image result;
             using (HttpWebResponse response = (HttpWebResponse) request.GetResponse())
@@ -79,6 +79,23 @@ namespace Hero.NetWorking
                 Debug.WriteLine(name);
             }
             return result;
+        }
+
+        public static void GetHeroRoles(string heroName, HashSet<HeroRoles> result)
+        {
+            HttpWebRequest request = GetRequest("https://dotabuff.com/heroes/"+heroName.ToLower());
+            string page = GetPage(request);
+            Match match = Regex.Match(page, @"<title>(.)+</title>");
+            string rolesString = match.Value;
+            rolesString=Regex.Replace(rolesString, @"<title>","");
+            rolesString=Regex.Replace(rolesString, @"\s-\sDOTABUFF\s-\sDota\s2\sStats</title>","");
+            rolesString=Regex.Replace(rolesString, heroName+" - ","");
+            string[] roles=Regex.Split(rolesString, @",\s");
+            foreach (string role in roles)
+            {
+                Debug.WriteLine(HeroInfo.ToRole(role));
+                result.Add(HeroInfo.ToRole(role));
+;           }
         }
     }
 }

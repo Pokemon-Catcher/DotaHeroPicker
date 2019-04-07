@@ -111,12 +111,14 @@
             "Carry",
             "Durable",
             "Initiator",
-            "Disabler"});
+            "Disabler",
+            "Jungler"});
             this.Roles.Location = new System.Drawing.Point(483, 462);
             this.Roles.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Roles.Name = "Roles";
             this.Roles.Size = new System.Drawing.Size(160, 102);
             this.Roles.TabIndex = 7;
+            this.Roles.SelectedIndexChanged += new System.EventHandler(this.Roles_SelectedIndexChanged);
             // 
             // Roles2
             // 
