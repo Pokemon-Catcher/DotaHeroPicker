@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Net;
@@ -6,6 +7,7 @@ using System.IO;
 using System.Drawing;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Hero.NetWorking
 {
@@ -83,19 +85,61 @@ namespace Hero.NetWorking
 
         public static void GetHeroRoles(string heroName, HashSet<HeroRoles> result)
         {
-            HttpWebRequest request = GetRequest("https://dotabuff.com/heroes/"+heroName.ToLower());
+                HttpWebRequest request = GetRequest("https://dotabuff.com/heroes/" + heroName.ToLower());
+                string page = GetPage(request);
+                Match match = Regex.Match(page, @"<title>(.)+</title>");
+                string rolesString = match.Value;
+                rolesString = Regex.Replace(rolesString, @"<title>", "");
+                rolesString = Regex.Replace(rolesString, @"\s-\sDOTABUFF\s-\sDota\s2\sStats</title>", "");
+                rolesString = Regex.Replace(rolesString, heroName + " - ", "");
+                string[] roles = Regex.Split(rolesString, @",\s");
+                foreach (string role in roles)
+                {
+                    //Debug.WriteLine(heroName+" - "+HeroInfo.ToRole(role.ToLower()));
+                    result.Add(HeroInfo.ToRole(role.ToLower()));
+                    ;
+                }
+        }
+
+        public static void GetHeroCounters(string heroName, Hashtable results)
+        {
+            HttpWebRequest request = GetRequest("https://dotabuff.com/heroes/"+heroName.ToLower()+"/counters");
             string page = GetPage(request);
-            Match match = Regex.Match(page, @"<title>(.)+</title>");
-            string rolesString = match.Value;
-            rolesString=Regex.Replace(rolesString, @"<title>","");
-            rolesString=Regex.Replace(rolesString, @"\s-\sDOTABUFF\s-\sDota\s2\sStats</title>","");
-            rolesString=Regex.Replace(rolesString, heroName+" - ","");
-            string[] roles=Regex.Split(rolesString, @",\s");
-            foreach (string role in roles)
+            Match begin = Regex.Match(page, @"Matchups");
+            Debug.WriteLine(heroName+" "+begin.Success+" "+begin.Index);
+            page=page.Substring(begin.Index,page.Length-begin.Index);
+            MatchCollection matches = Regex.Matches(page, @"data-value=""[A-z\s]+""");
+            foreach (Match match in matches)
             {
-                Debug.WriteLine(HeroInfo.ToRole(role));
-                result.Add(HeroInfo.ToRole(role));
-;           }
+                //Debug.WriteLine(match.Value);
+                float[] info = new float[3];
+                string matchString = match.Value;
+                matchString = Regex.Replace(matchString, @"data-value=""","");
+                matchString = Regex.Replace(matchString, @"""", "");
+                //Debug.WriteLine(matchString);
+                string newPage = page.Substring(match.Index-5, page.Length - match.Index);
+                MatchCollection matchesInfo = Regex.Matches(newPage, @"data-value=""-?[0-9]+\.?[0-9]*""");
+                int i = 0;
+                foreach (Match matchInfo in matchesInfo)
+                {
+                    string infoString = matchInfo.Value;
+                    infoString = Regex.Replace(infoString, @"data-value=""", "");
+                    infoString = Regex.Replace(infoString, @"""", "");
+                    infoString = Regex.Replace(infoString, @"\.",",");
+                    if (i > 2) break;
+                    if (!float.TryParse(infoString, out info[i]))
+                    {
+                        info[i] = 0;
+                        Debug.WriteLine("Float parsing has failed"+i.ToString());
+                    }
+
+
+                    //Debug.WriteLine(matchString + " " + i.ToString() + " " + infoString);
+                    i++;
+                }
+
+                results.Add(matchString.ToLower(),info);
+            }
         }
     }
 }

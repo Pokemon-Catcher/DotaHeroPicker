@@ -16,12 +16,12 @@ namespace Hero
         public string heroName;
         public HashSet<HeroRoles> roles;
         public Image heroIcon;
-        public Hashtable disadvantages;
+        public Hashtable info;
         public HeroInfo(string name)
         {
             heroName=name;
             roles = new HashSet<HeroRoles>();
-            disadvantages = new Hashtable();
+            info = new Hashtable();
         }
 
         public static HeroRoles ToRole(string role)

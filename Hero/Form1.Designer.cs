@@ -33,12 +33,12 @@
             this.hero3 = new System.Windows.Forms.PictureBox();
             this.hero4 = new System.Windows.Forms.PictureBox();
             this.hero5 = new System.Windows.Forms.PictureBox();
-            this.bestHeroes = new System.Windows.Forms.Panel();
             this.Roles = new System.Windows.Forms.CheckedListBox();
             this.Roles2 = new System.Windows.Forms.CheckedListBox();
             this.ByWinrate = new System.Windows.Forms.RadioButton();
             this.ByDisadvantage = new System.Windows.Forms.RadioButton();
             this.HeroList = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.hero1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero3)).BeginInit();
@@ -52,8 +52,10 @@
             this.hero1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.hero1.Name = "hero1";
             this.hero1.Size = new System.Drawing.Size(84, 60);
+            this.hero1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.hero1.TabIndex = 1;
             this.hero1.TabStop = false;
+            this.hero1.DoubleClick += new System.EventHandler(this.HeroUnpick);
             // 
             // hero2
             // 
@@ -61,8 +63,10 @@
             this.hero2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.hero2.Name = "hero2";
             this.hero2.Size = new System.Drawing.Size(84, 60);
+            this.hero2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.hero2.TabIndex = 2;
             this.hero2.TabStop = false;
+            this.hero2.DoubleClick += new System.EventHandler(this.HeroUnpick);
             // 
             // hero3
             // 
@@ -70,8 +74,10 @@
             this.hero3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.hero3.Name = "hero3";
             this.hero3.Size = new System.Drawing.Size(84, 60);
+            this.hero3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.hero3.TabIndex = 3;
             this.hero3.TabStop = false;
+            this.hero3.DoubleClick += new System.EventHandler(this.HeroUnpick);
             // 
             // hero4
             // 
@@ -79,8 +85,10 @@
             this.hero4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.hero4.Name = "hero4";
             this.hero4.Size = new System.Drawing.Size(84, 60);
+            this.hero4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.hero4.TabIndex = 4;
             this.hero4.TabStop = false;
+            this.hero4.DoubleClick += new System.EventHandler(this.HeroUnpick);
             // 
             // hero5
             // 
@@ -88,16 +96,10 @@
             this.hero5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.hero5.Name = "hero5";
             this.hero5.Size = new System.Drawing.Size(84, 60);
+            this.hero5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.hero5.TabIndex = 5;
             this.hero5.TabStop = false;
-            // 
-            // bestHeroes
-            // 
-            this.bestHeroes.Location = new System.Drawing.Point(483, 92);
-            this.bestHeroes.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.bestHeroes.Name = "bestHeroes";
-            this.bestHeroes.Size = new System.Drawing.Size(504, 351);
-            this.bestHeroes.TabIndex = 6;
+            this.hero5.DoubleClick += new System.EventHandler(this.HeroUnpick);
             // 
             // Roles
             // 
@@ -192,18 +194,37 @@
             this.HeroList.Size = new System.Drawing.Size(0, 587);
             this.HeroList.TabIndex = 11;
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.AutoSize = true;
+            this.tableLayoutPanel1.ColumnCount = 7;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(483, 82);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(490, 60);
+            this.tableLayoutPanel1.TabIndex = 12;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(1006, 587);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.HeroList);
             this.Controls.Add(this.ByDisadvantage);
             this.Controls.Add(this.ByWinrate);
             this.Controls.Add(this.Roles2);
             this.Controls.Add(this.Roles);
-            this.Controls.Add(this.bestHeroes);
             this.Controls.Add(this.hero5);
             this.Controls.Add(this.hero4);
             this.Controls.Add(this.hero3);
@@ -227,17 +248,17 @@
         }
 
         #endregion
-        private System.Windows.Forms.Panel bestHeroes;
         private System.Windows.Forms.CheckedListBox Roles;
         private System.Windows.Forms.CheckedListBox Roles2;
         private System.Windows.Forms.RadioButton ByWinrate;
         private System.Windows.Forms.RadioButton ByDisadvantage;
-        public System.Windows.Forms.PictureBox hero1;
-        public System.Windows.Forms.PictureBox hero2;
-        public System.Windows.Forms.PictureBox hero3;
-        public System.Windows.Forms.PictureBox hero4;
-        public System.Windows.Forms.PictureBox hero5;
         private System.Windows.Forms.TableLayoutPanel HeroList;
+        private System.Windows.Forms.PictureBox hero1;
+        private System.Windows.Forms.PictureBox hero2;
+        private System.Windows.Forms.PictureBox hero3;
+        private System.Windows.Forms.PictureBox hero4;
+        private System.Windows.Forms.PictureBox hero5;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }
 
