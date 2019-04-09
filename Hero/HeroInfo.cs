@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Hero
 {
@@ -10,18 +12,52 @@ namespace Hero
     {
         Carry,Support,Durable,Disabler,Melee,Nuker,Initiator,Escape,Jungler,Pusher,Ranged,NotARole
     }
+
+    public class HeroHashtable : Hashtable
+    {
+    }
+
+    public class HeroComparer : IComparer<HeroInfo>
+    {
+        public List<PictureBox> enemies;
+        public int info = 0;
+
+        public HeroComparer(List<PictureBox> enemies, int whichInfo)
+        {
+            this.enemies = enemies;
+            info = whichInfo;
+        }
+
+        int IComparer<HeroInfo>.Compare(HeroInfo x, HeroInfo y)  
+        {
+            float weightX = 0, weightY = 0;
+            foreach (PictureBox enemy in enemies)
+            {
+                Debug.WriteLine(x.heroName);
+                HeroInfo enemyInfo = enemy.Tag as HeroInfo;
+                if (enemyInfo is null || x.heroName == enemyInfo.heroName || y.heroName == enemyInfo.heroName) continue;
+                weightX += enemyInfo.info[x.heroName][info];
+                weightY += enemyInfo.info[y.heroName][info];
+            }
+
+            if (weightX > weightY) return 1;
+            else if (weightX == weightY) return 0;
+            return -1;
+        }
+    }
+
     [Serializable]
-    class HeroInfo
+    public class HeroInfo
     {
         public string heroName;
         public HashSet<HeroRoles> roles;
         public Image heroIcon;
-        public Hashtable info;
+        public Dictionary<string, List<float>> info;
         public HeroInfo(string name)
         {
             heroName=name;
             roles = new HashSet<HeroRoles>();
-            info = new Hashtable();
+            info = new Dictionary<string, List<float>>();
         }
 
         public static HeroRoles ToRole(string role)

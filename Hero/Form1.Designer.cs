@@ -38,7 +38,7 @@
             this.ByWinrate = new System.Windows.Forms.RadioButton();
             this.ByDisadvantage = new System.Windows.Forms.RadioButton();
             this.HeroList = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.bestHeroes = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.hero1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero3)).BeginInit();
@@ -194,24 +194,24 @@
             this.HeroList.Size = new System.Drawing.Size(0, 587);
             this.HeroList.TabIndex = 11;
             // 
-            // tableLayoutPanel1
+            // bestHeroes
             // 
-            this.tableLayoutPanel1.AutoSize = true;
-            this.tableLayoutPanel1.ColumnCount = 7;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(483, 82);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(490, 60);
-            this.tableLayoutPanel1.TabIndex = 12;
+            this.bestHeroes.AutoSize = true;
+            this.bestHeroes.ColumnCount = 7;
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.bestHeroes.Location = new System.Drawing.Point(483, 82);
+            this.bestHeroes.Name = "bestHeroes";
+            this.bestHeroes.RowCount = 2;
+            this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.bestHeroes.Size = new System.Drawing.Size(490, 60);
+            this.bestHeroes.TabIndex = 12;
             // 
             // MainWindow
             // 
@@ -219,7 +219,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(1006, 587);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.bestHeroes);
             this.Controls.Add(this.HeroList);
             this.Controls.Add(this.ByDisadvantage);
             this.Controls.Add(this.ByWinrate);
@@ -258,7 +258,7 @@
         private System.Windows.Forms.PictureBox hero3;
         private System.Windows.Forms.PictureBox hero4;
         private System.Windows.Forms.PictureBox hero5;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel bestHeroes;
     }
 }
 

@@ -9,6 +9,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Hero.NetWorking;
@@ -17,12 +18,17 @@ namespace Hero
 {
     public partial class MainWindow : Form
     {
-        List<PictureBox> enemies=new List<PictureBox>();
+        private List<PictureBox> bestHeroesPictures = new List<PictureBox>();
+        private List<PictureBox> enemies=new List<PictureBox>();
+        private List<HeroInfo> heroes=new List<HeroInfo>();
+        private Task bestHeroUpdate;
+        private CancellationTokenSource tokenSource = new CancellationTokenSource();
+        private CancellationToken token;
         public MainWindow()
         {
-            List<HeroInfo> heroes=new List<HeroInfo>();
-            List<Task> allTasks=new List<Task>();
             InitializeComponent();
+            List<Task> allTasks=new List<Task>();
+            token = tokenSource.Token;
             enemies.Add(hero1);
             enemies.Add(hero2);
             enemies.Add(hero3);
@@ -127,6 +133,12 @@ namespace Hero
                     break;
                 }
             }
+            if (!(bestHeroUpdate is null) && bestHeroUpdate.Status == TaskStatus.Running)
+            {
+                tokenSource.Cancel();
+                bestHeroUpdate.Wait();
+            }
+            bestHeroUpdate=GetBestHeroes(heroes,token);
         }
 
         private void HeroUnpick(object sender, EventArgs e)
@@ -134,8 +146,56 @@ namespace Hero
             PictureBox pic = sender as PictureBox;
             pic.Tag=null;
             pic.Image=null;
+            if (!(bestHeroUpdate is null) && bestHeroUpdate.Status == TaskStatus.Running)
+            {
+                tokenSource.Cancel();
+                bestHeroUpdate.Wait();
+            }
+            bestHeroUpdate=GetBestHeroes(heroes,token);
         }
-        
+
+        private async Task GetBestHeroes(List<HeroInfo> heroes, CancellationToken token)
+        {
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    if (token.IsCancellationRequested)
+                    {
+                        return;
+                    }
+
+                    ;
+                    foreach (PictureBox pic in bestHeroesPictures)
+                    {
+                        bestHeroesPictures.Remove(pic);
+                        Invoke(new Action(() =>
+                        {
+                            bestHeroes.Controls.Remove(pic);
+                            pic.Dispose();
+                        }));
+                    }
+
+                    HeroComparer comparer = new HeroComparer(enemies, 0);
+                    heroes.Sort(comparer);
+                    foreach (HeroInfo hero in heroes)
+                    {
+                        PictureBox pic = new PictureBox();
+                        pic.Image = hero.heroIcon;
+                        pic.Size = new Size(2 * pic.Image.Width / 5, 2 * pic.Image.Height / 5);
+                        pic.SizeMode = PictureBoxSizeMode.Zoom;
+                        pic.Tag = hero;
+                        Invoke(new Action(() => bestHeroes.Controls.Add(pic)));
+                        bestHeroesPictures.Add(pic);
+                    }
+                }
+                catch (InvalidOperationException e)
+                {
+                    return;
+                }
+            });
+        }
 
         private void MainWindow_Load(object sender, EventArgs e)
         {

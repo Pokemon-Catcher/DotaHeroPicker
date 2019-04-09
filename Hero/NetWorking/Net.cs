@@ -101,7 +101,7 @@ namespace Hero.NetWorking
                 }
         }
 
-        public static void GetHeroCounters(string heroName, Hashtable results)
+        public static void GetHeroCounters(string heroName, Dictionary<string, List<float>> results)
         {
             HttpWebRequest request = GetRequest("https://dotabuff.com/heroes/"+heroName.ToLower()+"/counters");
             string page = GetPage(request);
@@ -112,7 +112,7 @@ namespace Hero.NetWorking
             foreach (Match match in matches)
             {
                 //Debug.WriteLine(match.Value);
-                float[] info = new float[3];
+                List<float> info = new List<float>();
                 string matchString = match.Value;
                 matchString = Regex.Replace(matchString, @"data-value=""","");
                 matchString = Regex.Replace(matchString, @"""", "");
@@ -122,23 +122,24 @@ namespace Hero.NetWorking
                 int i = 0;
                 foreach (Match matchInfo in matchesInfo)
                 {
+                    if (i > 2) break;
+                    float value = 0;
                     string infoString = matchInfo.Value;
                     infoString = Regex.Replace(infoString, @"data-value=""", "");
-                    infoString = Regex.Replace(infoString, @"""", "");
-                    infoString = Regex.Replace(infoString, @"\.",",");
-                    if (i > 2) break;
-                    if (!float.TryParse(infoString, out info[i]))
+                    infoString = Regex.Replace(infoString, @"[\.""]", "");
+                    if (!float.TryParse(infoString, out value))
                     {
-                        info[i] = 0;
+                        value = 0;
                         Debug.WriteLine("Float parsing has failed"+i.ToString());
                     }
 
-
+                    info.Add(value);
                     //Debug.WriteLine(matchString + " " + i.ToString() + " " + infoString);
                     i++;
                 }
 
-                results.Add(matchString.ToLower(),info);
+                Debug.WriteLine(matchString);
+                results.Add(matchString,info);
             }
         }
     }
