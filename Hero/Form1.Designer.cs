@@ -39,11 +39,20 @@
             this.ByDisadvantage = new System.Windows.Forms.RadioButton();
             this.HeroList = new System.Windows.Forms.TableLayoutPanel();
             this.bestHeroes = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.heroValue1 = new System.Windows.Forms.TextBox();
+            this.heroValue2 = new System.Windows.Forms.TextBox();
+            this.heroValue3 = new System.Windows.Forms.TextBox();
+            this.heroValue4 = new System.Windows.Forms.TextBox();
+            this.heroValue5 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.hero1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero5)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // hero1
@@ -144,29 +153,33 @@
             // ByWinrate
             // 
             this.ByWinrate.AutoSize = true;
+            this.ByWinrate.BackColor = System.Drawing.Color.Transparent;
             this.ByWinrate.Checked = true;
             this.ByWinrate.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ByWinrate.FlatAppearance.BorderSize = 5;
+            this.ByWinrate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ByWinrate.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ByWinrate.ForeColor = System.Drawing.Color.PeachPuff;
             this.ByWinrate.Location = new System.Drawing.Point(847, 486);
             this.ByWinrate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ByWinrate.Name = "ByWinrate";
-            this.ByWinrate.Size = new System.Drawing.Size(87, 20);
+            this.ByWinrate.Size = new System.Drawing.Size(86, 20);
             this.ByWinrate.TabIndex = 9;
             this.ByWinrate.TabStop = true;
             this.ByWinrate.Text = "By Winrate";
-            this.ByWinrate.UseVisualStyleBackColor = true;
+            this.ByWinrate.UseVisualStyleBackColor = false;
+            this.ByWinrate.CheckedChanged += new System.EventHandler(this.ByWinrate_CheckedChanged);
             // 
             // ByDisadvantage
             // 
             this.ByDisadvantage.AutoSize = true;
+            this.ByDisadvantage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ByDisadvantage.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ByDisadvantage.ForeColor = System.Drawing.Color.PeachPuff;
             this.ByDisadvantage.Location = new System.Drawing.Point(847, 518);
             this.ByDisadvantage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ByDisadvantage.Name = "ByDisadvantage";
-            this.ByDisadvantage.Size = new System.Drawing.Size(109, 20);
+            this.ByDisadvantage.Size = new System.Drawing.Size(108, 20);
             this.ByDisadvantage.TabIndex = 10;
             this.ByDisadvantage.Text = "By Advantage";
             this.ByDisadvantage.UseVisualStyleBackColor = true;
@@ -175,8 +188,9 @@
             // 
             this.HeroList.AutoScroll = true;
             this.HeroList.AutoSize = true;
-            this.HeroList.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.HeroList.ColumnCount = 6;
+            this.HeroList.ColumnCount = 8;
+            this.HeroList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.HeroList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.HeroList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.HeroList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.HeroList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -184,34 +198,97 @@
             this.HeroList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.HeroList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.HeroList.Cursor = System.Windows.Forms.Cursors.No;
-            this.HeroList.Dock = System.Windows.Forms.DockStyle.Left;
-            this.HeroList.Location = new System.Drawing.Point(0, 0);
+            this.HeroList.Location = new System.Drawing.Point(3, 4);
             this.HeroList.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.HeroList.Name = "HeroList";
-            this.HeroList.RowCount = 2;
+            this.HeroList.RowCount = 1;
             this.HeroList.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.HeroList.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.HeroList.Size = new System.Drawing.Size(0, 587);
+            this.HeroList.Size = new System.Drawing.Size(40, 0);
             this.HeroList.TabIndex = 11;
+            this.HeroList.Paint += new System.Windows.Forms.PaintEventHandler(this.HeroList_Paint);
             // 
             // bestHeroes
             // 
             this.bestHeroes.AutoSize = true;
-            this.bestHeroes.ColumnCount = 7;
-            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.bestHeroes.Location = new System.Drawing.Point(483, 82);
+            this.bestHeroes.ColumnCount = 9;
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.bestHeroes.Location = new System.Drawing.Point(11, 3);
             this.bestHeroes.Name = "bestHeroes";
-            this.bestHeroes.RowCount = 2;
-            this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.bestHeroes.Size = new System.Drawing.Size(490, 60);
+            this.bestHeroes.RowCount = 10;
+            this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.bestHeroes.Size = new System.Drawing.Size(493, 327);
             this.bestHeroes.TabIndex = 12;
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.bestHeroes);
+            this.panel1.Location = new System.Drawing.Point(472, 122);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(522, 333);
+            this.panel1.TabIndex = 13;
+            // 
+            // panel2
+            // 
+            this.panel2.AutoScroll = true;
+            this.panel2.Controls.Add(this.HeroList);
+            this.panel2.Location = new System.Drawing.Point(3, 12);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(463, 563);
+            this.panel2.TabIndex = 14;
+            // 
+            // heroValue1
+            // 
+            this.heroValue1.Location = new System.Drawing.Point(483, 82);
+            this.heroValue1.Name = "heroValue1";
+            this.heroValue1.Size = new System.Drawing.Size(84, 22);
+            this.heroValue1.TabIndex = 15;
+            // 
+            // heroValue2
+            // 
+            this.heroValue2.Location = new System.Drawing.Point(588, 82);
+            this.heroValue2.Name = "heroValue2";
+            this.heroValue2.Size = new System.Drawing.Size(84, 22);
+            this.heroValue2.TabIndex = 16;
+            // 
+            // heroValue3
+            // 
+            this.heroValue3.Location = new System.Drawing.Point(693, 82);
+            this.heroValue3.Name = "heroValue3";
+            this.heroValue3.Size = new System.Drawing.Size(84, 22);
+            this.heroValue3.TabIndex = 17;
+            // 
+            // heroValue4
+            // 
+            this.heroValue4.Location = new System.Drawing.Point(798, 82);
+            this.heroValue4.Name = "heroValue4";
+            this.heroValue4.Size = new System.Drawing.Size(84, 22);
+            this.heroValue4.TabIndex = 18;
+            // 
+            // heroValue5
+            // 
+            this.heroValue5.Location = new System.Drawing.Point(903, 82);
+            this.heroValue5.Name = "heroValue5";
+            this.heroValue5.Size = new System.Drawing.Size(84, 22);
+            this.heroValue5.TabIndex = 19;
             // 
             // MainWindow
             // 
@@ -219,8 +296,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(1006, 587);
-            this.Controls.Add(this.bestHeroes);
-            this.Controls.Add(this.HeroList);
+            this.Controls.Add(this.heroValue5);
+            this.Controls.Add(this.heroValue4);
+            this.Controls.Add(this.heroValue3);
+            this.Controls.Add(this.heroValue2);
+            this.Controls.Add(this.heroValue1);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.ByDisadvantage);
             this.Controls.Add(this.ByWinrate);
             this.Controls.Add(this.Roles2);
@@ -242,6 +324,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.hero3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero5)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -253,12 +339,19 @@
         private System.Windows.Forms.RadioButton ByWinrate;
         private System.Windows.Forms.RadioButton ByDisadvantage;
         private System.Windows.Forms.TableLayoutPanel HeroList;
-        private System.Windows.Forms.PictureBox hero1;
         private System.Windows.Forms.PictureBox hero2;
         private System.Windows.Forms.PictureBox hero3;
         private System.Windows.Forms.PictureBox hero4;
         private System.Windows.Forms.PictureBox hero5;
         private System.Windows.Forms.TableLayoutPanel bestHeroes;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox hero1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TextBox heroValue1;
+        private System.Windows.Forms.TextBox heroValue2;
+        private System.Windows.Forms.TextBox heroValue3;
+        private System.Windows.Forms.TextBox heroValue4;
+        private System.Windows.Forms.TextBox heroValue5;
     }
 }
 

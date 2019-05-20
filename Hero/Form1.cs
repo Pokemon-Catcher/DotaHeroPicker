@@ -13,11 +13,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Hero.NetWorking;
+using Hero.ImageEditor;
 
 namespace Hero
 {
     public partial class MainWindow : Form
     {
+        private List<string> previousHeroes = new List<string>();
         private List<PictureBox> bestHeroesPictures = new List<PictureBox>();
         private List<PictureBox> enemies=new List<PictureBox>();
         private List<HeroInfo> heroes=new List<HeroInfo>();
@@ -32,15 +34,25 @@ namespace Hero
             enemies.Add(hero1);
             enemies.Add(hero2);
             enemies.Add(hero3);
+            previousHeroes = GetHeroesList();
             enemies.Add(hero4);
             enemies.Add(hero5);
             Directory.CreateDirectory("heroes");
-            List<string> names = GetHeroesList();            
-            CreateHeroList(names, heroes);
-            allTasks.Add(UpdatePics(heroes));
-            allTasks.Add(UpdateRoles(heroes));
-            allTasks.Add(UpdateCounters(heroes));
-            SaveHeroesInfo(heroes, allTasks);
+            DialogResult dialogResult = MessageBox.Show("Loading", "Load from file?", MessageBoxButtons.YesNo);
+            if(dialogResult == DialogResult.No)
+            {
+                List<string> names = GetHeroesList();
+                CreateHeroList(names, heroes);
+                allTasks.Add(UpdatePics(heroes,LoadHeroPictures(heroes)));
+                allTasks.Add(UpdateRoles(heroes));
+                allTasks.Add(UpdateCounters(heroes));
+                SaveHeroesInfo(heroes, allTasks);
+            }
+            else if (dialogResult == DialogResult.Yes)
+            {
+                UpdatePics(heroes,LoadHeroesInfo(heroes));
+            }
+
         }
 
         List<string> GetHeroesList()
@@ -55,12 +67,27 @@ namespace Hero
 
         void CreateHeroList(List<string> names, List<HeroInfo> heroes)
         {
-            foreach (string name in names)
-            {
-                HeroInfo newHero = new HeroInfo(name);
-                heroes.Add(newHero);
-            }
+            Task.Run(()=>{
+                foreach (string name in names)
+                {
+                    HeroInfo newHero = new HeroInfo(name);
+                    heroes.Add(newHero);
+                }
+            });
         }
+
+        async Task LoadHeroPictures(List<HeroInfo> heroes)
+        {
+            await Task.Run(() =>
+            {
+                foreach (HeroInfo hero in heroes)
+                {
+                    hero.heroIcon = Net.GetImage("https://dotabuff.com/assets/heroes/" +
+                                                 hero.heroName.ToLower().Replace(" ", "-") + ".jpg");
+                }
+            });
+        }
+
 
         async Task UpdateRoles(List<HeroInfo> heroes)
         {
@@ -73,16 +100,21 @@ namespace Hero
             });
         }
 
-        async Task UpdatePics(List<HeroInfo> heroes)
+        async Task UpdatePics(List<HeroInfo> heroes, Task loadPics=null)
         {
+
             await Task.Run(() =>
             {
+                if (!(loadPics is null))
+                {
+                   loadPics.Wait();
+                }
                 int i = 0;
                 foreach (HeroInfo hero in heroes)
                 {
                     PictureBox pic = new PictureBox();
-                    pic.Image = Net.GetImage("https://dotabuff.com/assets/heroes/" + hero.heroName.ToLower() + ".jpg");
-                    hero.heroIcon = pic.Image;
+                    pic.Image = hero.heroIcon;
+                    //ImageEdit.Tint(pic.Image, 1, 0, 0);
                     pic.Size = new Size(2 * pic.Image.Width / 5, 2 * pic.Image.Height / 5);
                     pic.SizeMode = PictureBoxSizeMode.Zoom;
                     pic.DoubleClick += new EventHandler(HeroPick);
@@ -121,9 +153,28 @@ namespace Hero
             });
         }
 
+        async Task LoadHeroesInfo(List<HeroInfo> heroes)
+        {
+            await Task.Run(() =>
+            {
+                foreach (string filename in Directory.GetFiles("heroes\\"))
+                {
+                    IFormatter formatter = new BinaryFormatter();
+                    Stream stream = new FileStream(filename, FileMode.Open,
+                        FileAccess.Read);
+                    HeroInfo hero = formatter.Deserialize(stream) as HeroInfo;
+                    heroes.Add(hero);
+                    stream.Close();
+                    Debug.WriteLine( hero.heroName + " loading has been done");
+                }
+            });
+        }
+
+
         private void HeroPick(object sender, EventArgs e)
         {
             PictureBox pic = sender as PictureBox;
+            if(IsThereSuchEnemy(pic.Tag as HeroInfo)) return;
             foreach (PictureBox enemy in enemies)
             {
                 if (!(enemy is null) && enemy.Tag is null)
@@ -133,9 +184,8 @@ namespace Hero
                     break;
                 }
             }
-            if (!(bestHeroUpdate is null) && bestHeroUpdate.Status == TaskStatus.Running)
+            if (!(bestHeroUpdate is null))
             {
-                tokenSource.Cancel();
                 bestHeroUpdate.Wait();
             }
             bestHeroUpdate=GetBestHeroes(heroes,token);
@@ -146,9 +196,8 @@ namespace Hero
             PictureBox pic = sender as PictureBox;
             pic.Tag=null;
             pic.Image=null;
-            if (!(bestHeroUpdate is null) && bestHeroUpdate.Status == TaskStatus.Running)
+            if (!(bestHeroUpdate is null))
             {
-                tokenSource.Cancel();
                 bestHeroUpdate.Wait();
             }
             bestHeroUpdate=GetBestHeroes(heroes,token);
@@ -169,24 +218,35 @@ namespace Hero
                     ;
                     foreach (PictureBox pic in bestHeroesPictures)
                     {
-                        bestHeroesPictures.Remove(pic);
                         Invoke(new Action(() =>
                         {
                             bestHeroes.Controls.Remove(pic);
-                            pic.Dispose();
                         }));
                     }
 
-                    HeroComparer comparer = new HeroComparer(enemies, 0);
+                    HeroComparer comparer = new HeroComparer(enemies, GetWhichInfo());
                     heroes.Sort(comparer);
                     foreach (HeroInfo hero in heroes)
                     {
+                        if (IsThereSuchEnemy(hero)) continue;
                         PictureBox pic = new PictureBox();
                         pic.Image = hero.heroIcon;
                         pic.Size = new Size(2 * pic.Image.Width / 5, 2 * pic.Image.Height / 5);
                         pic.SizeMode = PictureBoxSizeMode.Zoom;
                         pic.Tag = hero;
-                        Invoke(new Action(() => bestHeroes.Controls.Add(pic)));
+                    Invoke(new Action(() => {
+                        ToolTip tip = new ToolTip();
+                        string values = "";
+                        foreach (PictureBox enemy in enemies)
+                        {
+                            if (enemy is null || enemy.Tag is null) continue;
+                            HeroInfo enemyInfo = enemy.Tag as HeroInfo;
+                            values += enemyInfo.heroName + ": " + hero.info[enemyInfo.heroName][GetWhichInfo()] + "\n";
+                        }
+                        tip.SetToolTip(pic, values);
+ ;                        bestHeroes.Controls.Add(pic);
+                        
+                    }));
                         bestHeroesPictures.Add(pic);
                     }
                 }
@@ -197,6 +257,24 @@ namespace Hero
             });
         }
 
+        private bool IsThereSuchEnemy(HeroInfo hero)
+        {
+            bool passHero=false;
+            foreach (PictureBox enemy in enemies)
+            {
+                if (passHero || enemy.Tag is null) break;
+                HeroInfo enemyInfo = enemy.Tag as HeroInfo;
+                passHero = enemyInfo.heroName == hero.heroName;
+            }
+
+            return passHero;
+        }
+
+        private int GetWhichInfo()
+        {
+            if (ByWinrate.Checked) return 1;
+            else return 0;
+        }
         private void MainWindow_Load(object sender, EventArgs e)
         {
 
@@ -207,5 +285,18 @@ namespace Hero
 
         }
 
+        private void ByWinrate_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!(bestHeroUpdate is null))
+            {
+                bestHeroUpdate.Wait();
+            }
+            bestHeroUpdate = GetBestHeroes(heroes, token);
+        }
+
+        private void HeroList_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

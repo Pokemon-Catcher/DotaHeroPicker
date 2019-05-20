@@ -13,11 +13,7 @@ namespace Hero
         Carry,Support,Durable,Disabler,Melee,Nuker,Initiator,Escape,Jungler,Pusher,Ranged,NotARole
     }
 
-    public class HeroHashtable : Hashtable
-    {
-    }
-
-    public class HeroComparer : IComparer<HeroInfo>
+    class HeroComparer : IComparer<HeroInfo>
     {
         public List<PictureBox> enemies;
         public int info = 0;
@@ -33,13 +29,16 @@ namespace Hero
             float weightX = 0, weightY = 0;
             foreach (PictureBox enemy in enemies)
             {
-                Debug.WriteLine(x.heroName);
+                //Debug.WriteLine(x.heroName);
                 HeroInfo enemyInfo = enemy.Tag as HeroInfo;
                 if (enemyInfo is null || x.heroName == enemyInfo.heroName || y.heroName == enemyInfo.heroName) continue;
                 weightX += enemyInfo.info[x.heroName][info];
                 weightY += enemyInfo.info[y.heroName][info];
             }
-
+            //Debug.WriteLine("++++++++++++++++++++++++++");
+            //Debug.WriteLine(x.heroName +": " + weightX);
+            //Debug.WriteLine(y.heroName + ": " + weightY);
+            //Debug.WriteLine("--------------------------");
             if (weightX > weightY) return 1;
             else if (weightX == weightY) return 0;
             return -1;

@@ -42,14 +42,12 @@ namespace Hero.NetWorking
                 //{
                 //    Debug.WriteLine(i+":"+response.Headers[i]);
                 //}
-                using(Stream dataStream = response.GetResponseStream())
-                {
-                    Encoding encoding = Encoding.GetEncoding(response.CharacterSet);
-                    using (StreamReader reader = new StreamReader(dataStream, encoding)){
-                        result = reader.ReadToEnd();
-                        //Debug.Write(result);
-                    }
-                }   
+                Stream dataStream = response.GetResponseStream();
+                Encoding encoding = Encoding.GetEncoding(response.CharacterSet);
+                using (StreamReader reader = new StreamReader(dataStream, encoding)){
+                    result = reader.ReadToEnd();
+                    //Debug.Write(result);
+                }
             }
             return result;
         }
@@ -65,15 +63,11 @@ namespace Hero.NetWorking
             return result;
         }
 
-        public static void GetHeroes(string page, HeroInfo[] results)
-        {
-            
-        }
 
         public static List<string> GetHeroesNameList(string page)
         {
             List<string> result = new List<string>();
-            MatchCollection matches = Regex.Matches(page, @"<div class=""name"">\w*</div>");
+            MatchCollection matches = Regex.Matches(page, @"<div class=""name"">\w*[\-\s]*\w*</div>");
             foreach (Match match in matches)
             {
                 string name = match.Value.Substring(18, match.Value.Length - 24);
@@ -85,7 +79,7 @@ namespace Hero.NetWorking
 
         public static void GetHeroRoles(string heroName, HashSet<HeroRoles> result)
         {
-                HttpWebRequest request = GetRequest("https://dotabuff.com/heroes/" + heroName.ToLower());
+                HttpWebRequest request = GetRequest("https://dotabuff.com/heroes/" + heroName.ToLower().Replace(" ","-"));
                 string page = GetPage(request);
                 Match match = Regex.Match(page, @"<title>(.)+</title>");
                 string rolesString = match.Value;
@@ -103,12 +97,12 @@ namespace Hero.NetWorking
 
         public static void GetHeroCounters(string heroName, Dictionary<string, List<float>> results)
         {
-            HttpWebRequest request = GetRequest("https://dotabuff.com/heroes/"+heroName.ToLower()+"/counters");
+            HttpWebRequest request = GetRequest("https://dotabuff.com/heroes/"+heroName.ToLower().Replace(" ","-")+"/counters");
             string page = GetPage(request);
             Match begin = Regex.Match(page, @"Matchups");
             Debug.WriteLine(heroName+" "+begin.Success+" "+begin.Index);
             page=page.Substring(begin.Index,page.Length-begin.Index);
-            MatchCollection matches = Regex.Matches(page, @"data-value=""[A-z\s]+""");
+            MatchCollection matches = Regex.Matches(page, @"data-value=""[A-z\s-]+""");
             foreach (Match match in matches)
             {
                 //Debug.WriteLine(match.Value);
@@ -126,15 +120,15 @@ namespace Hero.NetWorking
                     float value = 0;
                     string infoString = matchInfo.Value;
                     infoString = Regex.Replace(infoString, @"data-value=""", "");
-                    infoString = Regex.Replace(infoString, @"[\.""]", "");
+                    infoString = Regex.Replace(infoString, @"""", "").Replace(".",",");
                     if (!float.TryParse(infoString, out value))
                     {
                         value = 0;
                         Debug.WriteLine("Float parsing has failed"+i.ToString());
                     }
-
+                    if (i == 0) value *= -1;
                     info.Add(value);
-                    //Debug.WriteLine(matchString + " " + i.ToString() + " " + infoString);
+                    //Debug.WriteLine(matchString + " " + i.ToString() + " " + infoString + "" + value);
                     i++;
                 }
 
