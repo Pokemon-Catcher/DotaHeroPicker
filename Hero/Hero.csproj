@@ -49,7 +49,6 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="HeroInformation\HeroInfo.cs" />
-    <Compile Include="ImageEditor\ImageEdit.cs" />
     <Compile Include="NetWorking\Net.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

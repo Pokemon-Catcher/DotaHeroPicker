@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Hero.NetWorking
 {
-    class Net
+    public class Net
     {
         public static HttpWebRequest GetRequest(string url)
         {
@@ -34,6 +34,7 @@ namespace Hero.NetWorking
             //Debug.WriteLine(request.Headers);
             return request;
         }
+
         public static string GetPage(HttpWebRequest request)
         {
             string result="Error";
@@ -67,7 +68,7 @@ namespace Hero.NetWorking
         public static List<string> GetHeroesNameList(string page)
         {
             List<string> result = new List<string>();
-            MatchCollection matches = Regex.Matches(page, @"<div class=""name"">\w*[\-\s]*\w*</div>");
+            MatchCollection matches = Regex.Matches(page, @"<div class=""name"">[\-\s\w']*</div>");
             foreach (Match match in matches)
             {
                 string name = match.Value.Substring(18, match.Value.Length - 24);

@@ -13,7 +13,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Hero.NetWorking;
-using Hero.ImageEditor;
 
 namespace Hero
 {
@@ -24,11 +23,14 @@ namespace Hero
         private List<PictureBox> enemies=new List<PictureBox>();
         private List<HeroInfo> heroes=new List<HeroInfo>();
         private Task bestHeroUpdate;
+        private SemaphoreSlim semaphore = new SemaphoreSlim(1);
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
         private CancellationToken token;
         public MainWindow()
         {
             InitializeComponent();
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
+                                       SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
             List<Task> allTasks=new List<Task>();
             token = tokenSource.Token;
             enemies.Add(hero1);
@@ -38,7 +40,7 @@ namespace Hero
             enemies.Add(hero4);
             enemies.Add(hero5);
             Directory.CreateDirectory("heroes");
-            DialogResult dialogResult = MessageBox.Show("Loading", "Load from file?", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Loading", "Load from disk?", MessageBoxButtons.YesNo);
             if(dialogResult == DialogResult.No)
             {
                 List<string> names = GetHeroesList();
@@ -57,8 +59,7 @@ namespace Hero
 
         List<string> GetHeroesList()
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
-                                                   SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
+
             HttpWebRequest request = Net.GetRequest("https://dotabuff.com/heroes");
             string page = Net.GetPage(request);
             List<string> names = Net.GetHeroesNameList(page);
@@ -68,11 +69,13 @@ namespace Hero
         void CreateHeroList(List<string> names, List<HeroInfo> heroes)
         {
             Task.Run(()=>{
+                semaphore.Wait();
                 foreach (string name in names)
                 {
                     HeroInfo newHero = new HeroInfo(name);
                     heroes.Add(newHero);
                 }
+                semaphore.Release();
             });
         }
 
@@ -80,11 +83,13 @@ namespace Hero
         {
             await Task.Run(() =>
             {
+                semaphore.Wait();
                 foreach (HeroInfo hero in heroes)
                 {
                     hero.heroIcon = Net.GetImage("https://dotabuff.com/assets/heroes/" +
                                                  hero.heroName.ToLower().Replace(" ", "-") + ".jpg");
                 }
+                semaphore.Release();
             });
         }
 
@@ -93,10 +98,12 @@ namespace Hero
         {
             await Task.Run(() =>
             {
+                semaphore.Wait();
                 foreach (HeroInfo hero in heroes)
                 {
                     Net.GetHeroRoles(hero.heroName, hero.roles);
                 }
+                semaphore.Release();
             });
         }
 
@@ -114,7 +121,6 @@ namespace Hero
                 {
                     PictureBox pic = new PictureBox();
                     pic.Image = hero.heroIcon;
-                    //ImageEdit.Tint(pic.Image, 1, 0, 0);
                     pic.Size = new Size(2 * pic.Image.Width / 5, 2 * pic.Image.Height / 5);
                     pic.SizeMode = PictureBoxSizeMode.Zoom;
                     pic.DoubleClick += new EventHandler(HeroPick);
@@ -129,10 +135,12 @@ namespace Hero
         {
             await Task.Run(() =>
             {
+                semaphore.Wait();
                 foreach (HeroInfo hero in heroes)
                 {
                     Net.GetHeroCounters(hero.heroName, hero.info);
                 }
+                semaphore.Release();
             });
         }
 
@@ -215,7 +223,6 @@ namespace Hero
                         return;
                     }
 
-                    ;
                     foreach (PictureBox pic in bestHeroesPictures)
                     {
                         Invoke(new Action(() =>
@@ -275,15 +282,6 @@ namespace Hero
             if (ByWinrate.Checked) return 1;
             else return 0;
         }
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Roles_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void ByWinrate_CheckedChanged(object sender, EventArgs e)
         {
@@ -294,9 +292,5 @@ namespace Hero
             bestHeroUpdate = GetBestHeroes(heroes, token);
         }
 
-        private void HeroList_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }

@@ -129,7 +129,7 @@
             this.Roles.Name = "Roles";
             this.Roles.Size = new System.Drawing.Size(160, 102);
             this.Roles.TabIndex = 7;
-            this.Roles.SelectedIndexChanged += new System.EventHandler(this.Roles_SelectedIndexChanged);
+            this.Roles.Visible = false;
             // 
             // Roles2
             // 
@@ -149,6 +149,7 @@
             this.Roles2.Name = "Roles2";
             this.Roles2.Size = new System.Drawing.Size(173, 102);
             this.Roles2.TabIndex = 8;
+            this.Roles2.Visible = false;
             // 
             // ByWinrate
             // 
@@ -160,7 +161,7 @@
             this.ByWinrate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ByWinrate.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ByWinrate.ForeColor = System.Drawing.Color.PeachPuff;
-            this.ByWinrate.Location = new System.Drawing.Point(847, 486);
+            this.ByWinrate.Location = new System.Drawing.Point(557, 544);
             this.ByWinrate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ByWinrate.Name = "ByWinrate";
             this.ByWinrate.Size = new System.Drawing.Size(86, 20);
@@ -176,7 +177,7 @@
             this.ByDisadvantage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ByDisadvantage.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ByDisadvantage.ForeColor = System.Drawing.Color.PeachPuff;
-            this.ByDisadvantage.Location = new System.Drawing.Point(847, 518);
+            this.ByDisadvantage.Location = new System.Drawing.Point(798, 544);
             this.ByDisadvantage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ByDisadvantage.Name = "ByDisadvantage";
             this.ByDisadvantage.Size = new System.Drawing.Size(108, 20);
@@ -205,12 +206,11 @@
             this.HeroList.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.HeroList.Size = new System.Drawing.Size(40, 0);
             this.HeroList.TabIndex = 11;
-            this.HeroList.Paint += new System.Windows.Forms.PaintEventHandler(this.HeroList_Paint);
             // 
             // bestHeroes
             // 
             this.bestHeroes.AutoSize = true;
-            this.bestHeroes.ColumnCount = 9;
+            this.bestHeroes.ColumnCount = 8;
             this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.bestHeroes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -234,7 +234,7 @@
             this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.bestHeroes.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.bestHeroes.Size = new System.Drawing.Size(493, 327);
+            this.bestHeroes.Size = new System.Drawing.Size(493, 354);
             this.bestHeroes.TabIndex = 12;
             // 
             // panel1
@@ -243,7 +243,7 @@
             this.panel1.Controls.Add(this.bestHeroes);
             this.panel1.Location = new System.Drawing.Point(472, 122);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(522, 333);
+            this.panel1.Size = new System.Drawing.Size(522, 415);
             this.panel1.TabIndex = 13;
             // 
             // panel2
@@ -261,6 +261,7 @@
             this.heroValue1.Name = "heroValue1";
             this.heroValue1.Size = new System.Drawing.Size(84, 22);
             this.heroValue1.TabIndex = 15;
+            this.heroValue1.Visible = false;
             // 
             // heroValue2
             // 
@@ -268,6 +269,7 @@
             this.heroValue2.Name = "heroValue2";
             this.heroValue2.Size = new System.Drawing.Size(84, 22);
             this.heroValue2.TabIndex = 16;
+            this.heroValue2.Visible = false;
             // 
             // heroValue3
             // 
@@ -275,6 +277,7 @@
             this.heroValue3.Name = "heroValue3";
             this.heroValue3.Size = new System.Drawing.Size(84, 22);
             this.heroValue3.TabIndex = 17;
+            this.heroValue3.Visible = false;
             // 
             // heroValue4
             // 
@@ -282,6 +285,7 @@
             this.heroValue4.Name = "heroValue4";
             this.heroValue4.Size = new System.Drawing.Size(84, 22);
             this.heroValue4.TabIndex = 18;
+            this.heroValue4.Visible = false;
             // 
             // heroValue5
             // 
@@ -289,6 +293,7 @@
             this.heroValue5.Name = "heroValue5";
             this.heroValue5.Size = new System.Drawing.Size(84, 22);
             this.heroValue5.TabIndex = 19;
+            this.heroValue5.Visible = false;
             // 
             // MainWindow
             // 
@@ -318,7 +323,6 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainWindow";
             this.Text = "Dota Hero Picker";
-            this.Load += new System.EventHandler(this.MainWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.hero1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hero3)).EndInit();
